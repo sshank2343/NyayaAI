@@ -27,7 +27,6 @@ def _vector_db_candidates() -> list[Path]:
     return [
         base_dir / "data_pipeline" / "vector_db",
         base_dir / "data_pipeline" / "vector_db_production",
-        base_dir / "data_pipeline" / "vector_db_production" / "vector_db_production",
     ]
 
 
