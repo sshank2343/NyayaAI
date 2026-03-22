@@ -50,3 +50,4 @@ coverage/
 # Runtime logs
 logs/
 *.log
+ai_service/data_pipeline/vector_db_production/
