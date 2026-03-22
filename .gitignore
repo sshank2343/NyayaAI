@@ -50,4 +50,7 @@ coverage/
 # Runtime logs
 logs/
 *.log
+
+# Vector databases and FAISS indexes
+ai_service/data_pipeline/vector_db/
 ai_service/data_pipeline/vector_db_production/
