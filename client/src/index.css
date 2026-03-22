@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+/* A nice modern background color for our legal app */
+body {
+  background-color: #f8fafc;
+}
