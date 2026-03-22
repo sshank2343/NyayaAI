@@ -20,8 +20,10 @@ const handleSearchQuery = async(req,res)=>{
         // Database: Save this interaction to MongoDB
 
         const newSearchHistory = new History({
+            user: req.user.id,
             query:text,
-            response:aiAnswer
+            response:aiAnswer,
+            similarCases
         });
 
         await newSearchHistory.save()
@@ -41,4 +43,38 @@ const handleSearchQuery = async(req,res)=>{
     }
 };
 
-module.exports = {handleSearchQuery};
+const getUserHistory = async (req, res) => {
+    try {
+        const history = await History.find({ user: req.user.id })
+            .sort({ timestamp: -1 })
+            .select('query response similarCases timestamp')
+            .lean();
+
+        res.status(200).json({ history });
+    } catch (error) {
+        console.error('❌ History Fetch Error:', error.message);
+        res.status(500).json({ error: 'An error occurred while fetching history.' });
+    }
+};
+
+const deleteHistoryItem = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const deleted = await History.findOneAndDelete({
+            _id: id,
+            user: req.user.id
+        });
+
+        if (!deleted) {
+            return res.status(404).json({ error: 'History item not found.' });
+        }
+
+        res.status(200).json({ message: 'History item deleted successfully.' });
+    } catch (error) {
+        console.error('❌ History Delete Error:', error.message);
+        res.status(500).json({ error: 'An error occurred while deleting history item.' });
+    }
+};
+
+module.exports = {handleSearchQuery, getUserHistory, deleteHistoryItem};

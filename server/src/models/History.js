@@ -1,6 +1,12 @@
 const mongoose = require('mongoose');
 
 const historySchema = new mongoose.Schema({
+    user:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+        index: true
+    },
     query:{
         type:String,
         required:true
@@ -9,12 +15,14 @@ const historySchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    similarCases: {
+        type: Array,
+        default: []
+    },
     timestamp:{
         type:Date,
         default:Date.now
     }
-    // Pro-Tip: If you add user login later, you would add a "userId" field here 
-    // so each lawyer only sees their own search history!
 });
 
 module.exports = mongoose.model('History', historySchema);
